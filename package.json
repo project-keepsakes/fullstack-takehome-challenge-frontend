@@ -11,7 +11,7 @@
     "dotenv": "^16.4.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.22.3",
+    "react-router-dom": "^7.18.5",
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"
   },
@@ -21,6 +21,11 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "test:tooling": "node --test scripts/dev-server-config.test.cjs"
+  },
+  "jest": {
+    "moduleNameMapper": {
+      "^react-router/dom$": "<rootDir>/node_modules/react-router/dist/development/dom-export.js"
+    }
   },
   "eslintConfig": {
     "extends": [
@@ -46,7 +51,8 @@
     "@svgr/webpack": "8.1.0",
     "resolve-url-loader": "5.0.0",
     "webpack-dev-server": "5.2.7",
-    "webpack-dev-middleware": "7.4.6"
+    "webpack-dev-middleware": "7.4.6",
+    "@tootallnate/once@<2.0.1": "2.0.1"
   },
   "engines": {
     "node": ">=22.23.2"

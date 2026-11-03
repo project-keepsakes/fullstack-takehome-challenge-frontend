@@ -37,6 +37,23 @@ test('submits the raffle name and secret token through the existing API', async 
   ));
 });
 
+test('navigates from a raffle to its participants and registration form', async () => {
+  axios.get.mockImplementation((url) => Promise.resolve({ data:
+    url.endsWith('/api/raffles')
+      ? { data: [{ id: 17, raffle_name: 'Sample raffle', created_at: '2026-01-01' }] }
+      : [],
+  }));
+  render(<App />);
+  fireEvent.click(await screen.findByRole('link', { name: 'Sample raffle' }));
+  expect(await screen.findByRole('heading', { name: 'Participants: 0 Total' })).toBeVisible();
+  await waitFor(() => expect(axios.get).toHaveBeenCalledWith(
+    `${process.env.REACT_APP_API_URL}/api/raffles/17/participants`,
+  ));
+  fireEvent.click(screen.getByRole('link', { name: 'Register' }));
+  expect(await screen.findByLabelText('First Name*')).toBeVisible();
+  expect(window.location.pathname).toBe('/raffles/17');
+});
+
 test('an unsuccessful list request leaves the raffle form usable', async () => {
   const error = new Error('Synthetic network failure');
   const consoleError = jest.spyOn(console, 'error').mockImplementation(() => {});
